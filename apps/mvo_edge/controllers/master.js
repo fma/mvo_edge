@@ -26,12 +26,12 @@ MvoEdge.masterController = SC.ArrayController.create(
 
     @property {Array} descriptiveMetadataDictionary
   */
-  descriptiveMetadataDictionary: function () {
+  descriptiveMetadataDictionary: function() {
     return this.arrangedObjects().objectAt(0).get('metadata');
   }.property(),
 
   /**
-    The guid of the selected file/object that is currently being displayed by
+    The guid of the selected file/object that is currently being displasyed by
     the application
 
     @property {String} selectedObjectId the guid of an object of type
@@ -45,20 +45,32 @@ MvoEdge.masterController = SC.ArrayController.create(
 
     @property {MvoEdge.CoreDocumentNode} selectedObject
    */
-  selectedObject: function () {
-    if (this.get('selectedObjectId')) {
-      return MvoEdge.CoreDocumentNode.find(this.get('selectedObjectId'));
+  selectedObject: function() {
+    console.log('MasterController, call selectedObject');
+    var sel = this.get('selectedObjectId');
+	console.info('sel : ' + sel);
+    if (sel) {
+      console.info('selectedObjectId : ' + sel);
+	  var q = SC.Query.create({ recordType: MvoEdge.Thumbnail, conditions: "coreDocumentNode = '"+sel+"'"});
+	  var imageObjects = MvoEdge.store.findAll(q);
+	  console.info('ImageObjects : ' + imageObjects);
+	  var res = imageObjects.firstObject();
+	  console.info('Res : ' + res);
+      return res;
     }
-  }.property('selectedObjectId'),
+    console.log('MasterController, end of call selectedObject.');
+  }.property('selectedObjectId').cacheable(),
 
   /**
     Changes the currently selected object
 
     @param {String} the guid of an object of type MvoEdge.CoreDocumentNode
    */
-  changeSelection: function (guid) {
-    console.log('mastercontroller.changeSelection ' + guid);
-    this.set('selectedObjectId', guid);
+  changeSelection: function(guid) {
+	console.log('MasterController, call changeSelection : ' + guid);
+    console.info('old guid : ' + this.get('selectedObjectId') + ', new guid : ' + guid);
+	this.set('selectedObjectId', guid);
+	console.log('MasterController, end of call changeSelection.');
   }
 
 });
