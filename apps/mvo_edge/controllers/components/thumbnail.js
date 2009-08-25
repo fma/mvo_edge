@@ -95,16 +95,19 @@ MvoEdge.thumbnailController = SC.ArrayController.create(
     @observes selection
    */
   _selectionDidChange: function () {
-    var coreDocumentNodeId =
-        this.get('selection').firstObject().get('coreDocumentNode');
-    // make sure the selection has actually changed, (to avoid loopbacks)
-    if (coreDocumentNodeId &&
-        coreDocumentNodeId !== this.get('masterSelection')) {
-      this.set('masterSelection', coreDocumentNodeId);
+	if (this.get('selection')) {
+		if (this.get('selection').firstObject()) {
+      		var coreDocumentNodeId =
+          			this.get('selection').firstObject().get('coreDocumentNode');
+      		// make sure the selection has actually changed, (to avoid loopbacks)
+      		if (coreDocumentNodeId &&
+          			coreDocumentNodeId !== this.get('masterSelection')) {
+        		this.set('masterSelection', coreDocumentNodeId);
+      		}
+      		console.info('MvoEdge.thumbnailController#_selectionDidChange: ' +
+        			'new selection is ' + this.get('selection').firstObject().get('guid'));
+		}
     }
-
-    console.info('MvoEdge.thumbnailController#_selectionDidChange: ' +
-        'new selection is ' + this.get('selection').firstObject().get('guid'));
 
   }.observes('selection'),
 

@@ -87,12 +87,14 @@ MvoEdge.masterController = SC.ArrayController.create(
   */
   
   masterSelectionDidChange: function () {
-    var div = MvoEdge.getPath('viewsPage.mainContentView.contentView');
-    var tempIm = new Image();
-    tempIm.src = this.get('selectedObject').get('url');
-    div.adjust('width', tempIm.width+20);
-    div.adjust('height', tempIm.height+20);
-    console.log('MvoEdge.masterController#masterSelectionDidChange');
-  }.observes('masterSelection'),
+	  if (this.get('selectedObject')) {
+	    var div = MvoEdge.getPath('viewsPage.mainContentView.contentView');
+	    var tempIm = new Image();
+	    tempIm.src = this.get('selectedObject').get('url');
+	    div.adjust('width', tempIm.width + 20);
+	    div.adjust('height', tempIm.height + 20);
+	    console.log('MvoEdge.masterController#masterSelectionDidChange');
+	    }
+	  }.observes('masterSelection')
 
 });
